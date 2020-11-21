@@ -1,6 +1,7 @@
 {
   "name": "next-apollo-ts",
-  "private": true,
+  "private": false,
+  "license": "MIT",
   "scripts": {
     "dev": "next -p 4000",
     "build": "next build",
