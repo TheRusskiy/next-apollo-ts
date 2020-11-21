@@ -1,0 +1,7 @@
+.next/
+.idea/
+/node_modules
+*.iml
+/yarn-error.log
+.DS_Store
+.graphqlconfig

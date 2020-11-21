@@ -1,0 +1,50 @@
+{
+  "name": "next-apollo-ts",
+  "private": true,
+  "scripts": {
+    "dev": "next -p 4000",
+    "build": "next build",
+    "start": "next start -p 4000",
+    "lint": "eslint '*/**/*.{js,ts,tsx}'",
+    "generate-types": "apollo codegen:generate --localSchemaFile=schema.graphql --target=typescript --includes='{pages,components}/**/*.{ts,tsx}' --tagName=gql --addTypename --globalTypesFile=types/graphql-global-types.d.ts types",
+    "get-schema": "get-graphql-schema https://nextjs-graphql-with-prisma-simple.vercel.app/api > schema.graphql",
+    "format-types": "prettier --write '{pages,components}/**/types/*.{js,jsx,ts,tsx}'",
+    "types": "npm run get-schema && npm run generate-types && npm run format-types",
+    "check-types": "npm run types && tsc --noEmit",
+    "format": "prettier --write '{App,__tests__}/**/*.{js,jsx,ts,tsx}'"
+  },
+  "dependencies": {
+    "@apollo/client": "^3.2.5",
+    "@apollo/react-ssr": "^4.0.0",
+    "deepmerge": "^4.2.2",
+    "isomorphic-unfetch": "^3.1.0",
+    "next": "~10.0.0",
+    "react": "^16.13.0",
+    "react-dom": "^16.13.0",
+    "styled-components": "^5.2.1"
+  },
+  "devDependencies": {
+    "@types/node": "12.0.12",
+    "@types/react": "16.8.23",
+    "@types/react-dom": "16.8.4",
+    "@types/styled-components": "5.0.1",
+    "@typescript-eslint/eslint-plugin": "2.25.0",
+    "@typescript-eslint/parser": "2.25.0",
+    "add": "^2.0.6",
+    "apollo": "^2.31.0",
+    "babel-plugin-styled-components": "^1.10.0",
+    "eslint": "5.16.0",
+    "eslint-config-airbnb": "17.1.1",
+    "eslint-config-prettier": "6.0.0",
+    "eslint-plugin-i18n-json": "2.4.3",
+    "eslint-plugin-import": "2.20.0",
+    "eslint-plugin-jest": "22.8.0",
+    "eslint-plugin-jsx-a11y": "6.2.3",
+    "eslint-plugin-prettier": "3.1.0",
+    "eslint-plugin-react": "7.14.2",
+    "eslint-plugin-react-hooks": "1.6.1",
+    "get-graphql-schema": "^2.1.2",
+    "prettier": "^2.1.2",
+    "typescript": "4.0"
+  }
+}

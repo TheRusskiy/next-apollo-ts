@@ -1,0 +1,57 @@
+type _QueryMeta {
+  count: Int!
+}
+
+scalar DateTime
+
+type Mutation {
+  createPost(title: String!, url: String!): Post!
+  votePost(id: String!): Post!
+}
+
+enum OrderBy {
+  asc
+  desc
+}
+
+type Post {
+  id: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  title: String!
+  url: String!
+  votes: Int!
+}
+
+input PostOrderBy {
+  title: OrderBy
+  createdAt: OrderBy
+  updatedAt: OrderBy
+  votes: OrderBy
+}
+
+type Query {
+  allUsers(first: Int, skip: Int, orderBy: UserOrderBy): [User!]!
+  _allUsersMeta: _QueryMeta!
+  User(id: String!): User!
+  allPosts(first: Int, skip: Int, orderBy: PostOrderBy): [Post!]!
+  _allPostsMeta: _QueryMeta!
+  Post(id: String!): Post!
+}
+
+type User {
+  id: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  firstName: String!
+  lastName: String!
+  email: String!
+}
+
+input UserOrderBy {
+  firstName: OrderBy
+  lastName: OrderBy
+  createdAt: OrderBy
+  updatedAt: OrderBy
+}
+
