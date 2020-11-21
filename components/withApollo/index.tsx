@@ -4,7 +4,8 @@ import { ApolloClient, ApolloProvider } from '@apollo/client'
 import { NextPage, NextPageContext } from 'next'
 import useComponentWillMount from 'hooks/useComponentWillMount'
 import useComponentDidMount from 'hooks/useComponentDidMount'
-import merge from 'deepmerge'
+import { DeepMerger } from '@apollo/client/utilities'
+import reconcileProcessedFields from 'utils/reconcileProcessedFields'
 
 import createApolloClient from './createApolloClient'
 // On the client, we store the Apollo Client in the following variable.
@@ -110,10 +111,6 @@ type NextPageProps = {
   generatedAt?: string
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const overwriteArraysMerge = (_destinationArray: any[], sourceArray: any[]) =>
-  sourceArray
-
 export const withApollo = ({ ssr = false } = {}) => (
   PageComponent: NextPage<NextPageProps>
 ) => {
@@ -134,12 +131,18 @@ export const withApollo = ({ ssr = false } = {}) => (
     } else {
       // Happens on: next.js csr
       client = initApolloClient(apolloState, null)
-      if (apolloState && pageProps.generatedAt) {
-        client.cache.restore(
-          merge(apolloState, client.cache.extract(), {
-            arrayMerge: overwriteArraysMerge
-          })
-        )
+      if (
+        apolloState &&
+        pageProps.generatedAt &&
+        typeof window !== 'undefined'
+      ) {
+        // source:
+        // https://github.com/apollographql/apollo-client/blob/a975320528d314a1b7eba131b97d045d940596d7/src/cache/inmemory/writeToStore.ts#L100
+        // a normal "deep merge" seemed to work as well, but it's safer to use
+        // Apollo's implementation
+        const merger = new DeepMerger(reconcileProcessedFields)
+
+        client.cache.restore(merger.merge(apolloState, client.cache.extract()))
       }
     }
 
