@@ -55,7 +55,7 @@ export default function getStaticApolloProps<
   TParams extends ParsedUrlQuery = ParsedUrlQuery
 >(
   Page: React.ComponentType<TStaticProps>,
-  { revalidate }: { revalidate?: number },
+  { revalidate }: { revalidate?: number } = {},
   callback: StaticApolloPropsCallback<TStaticProps, TParams> = async () =>
     ({} as TStaticProps)
 ): GetStaticProps<StaticApolloProps & TStaticProps, TParams> {

@@ -10,3 +10,35 @@
 * Addresses shortcomings of `revalidate` (https://github.com/vercel/next.js/discussions/11552#discussioncomment-53779) by checking when the data was last fetched. If it was fetch longer than the `revalidate` period, we trigger a query from client-side to load up-to-date data on queries with `fetchPolicy: 'cache-and-network'`.
 * Eslint config.
 * Styled-components integration.
+
+## Usage
+
+### SSR:
+If you want to inject apollo client into your page and generate it on server wrap it in `withApollo({ ssr: true })(YourPage)`, e.g.:
+```
+export default withApollo({ ssr: true })(YourPage)
+```
+
+### CSR:
+If you want to inject apollo client into your page and skip server-side generation then wrap it in `withApollo({ ssr: false })(YourPage)`, e.g.:
+```
+export default withApollo({ ssr: false })(YourPage)
+```
+
+### SSG (getStaticProps):
+If you want to pre-generate your page, then do the following:
+
+```
+export default withApollo({ ssr: false })(YourPage)
+export const getStaticProps = getStaticApolloProps<Props, Params>(YourPage)
+```
+
+### ISR (getStaticProps + revalidate):
+If you want to pre-generate your page, but keep updating it every N seconds, then do the following:
+
+```
+export default withApollo({ ssr: false })(YourPage)
+
+// Update every 60 seconds
+export const getStaticProps = getStaticApolloProps<Props, Params>(YourPage, { revalidate: 60 })
+```
