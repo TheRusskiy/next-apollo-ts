@@ -12,7 +12,7 @@ function isFieldValueToBeMerged(
   return field && isField(field);
 }
 
-const reconcileProcessedFields: ReconcilerFunction<[]> = function (
+const reconcileProcessedFields: ReconcilerFunction<any[]> = function (
   existingObject,
   incomingObject,
   property,
