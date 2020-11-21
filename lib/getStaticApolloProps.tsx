@@ -9,7 +9,7 @@ import React from 'react'
 export type StaticApolloProps = {
   apolloState: object
   generatedAt: string
-  revalidate?: number
+  revalidate?: number | null
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -96,7 +96,7 @@ export default function getStaticApolloProps<
       props: {
         apolloState: apolloClient.cache.extract(),
         generatedAt: new Date().toISOString(),
-        revalidate,
+        revalidate: revalidate || null,
         ...otherProps
       },
       revalidate
