@@ -32,9 +32,24 @@ export default function createApolloClient(
   }
 
   const cookieLink = createCookieLink(ctx)
+
+  const fetchWithCookies: typeof fetch = async (
+    input: RequestInfo,
+    init?: RequestInit
+  ) => {
+    const result = await fetch(input, init)
+    if (ctx?.res) {
+      const cookiesFromApi = result.headers.get('set-cookie')
+      if (cookiesFromApi) {
+        ctx?.res.setHeader('set-cookie', cookiesFromApi)
+      }
+    }
+    return result
+  }
+
   const httpLink = new HttpLink({
     uri: `${process.env.NEXT_PUBLIC_API_URL}`,
-    fetch,
+    fetch: fetchWithCookies,
     fetchOptions
   })
   return new ApolloClient({
