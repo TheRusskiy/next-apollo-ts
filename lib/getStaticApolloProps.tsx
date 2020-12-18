@@ -70,7 +70,7 @@ export default function getStaticApolloProps<
       ...baseFakeRouter
     }
 
-    const { getDataFromTree } = await import('@apollo/react-ssr')
+    const { getDataFromTree } = await import('@apollo/client/react/ssr')
     const { RouterContext } = await import(
       'next/dist/next-server/lib/router-context'
     )

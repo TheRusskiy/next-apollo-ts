@@ -5,7 +5,6 @@ import { NextPage, NextPageContext } from 'next'
 import useComponentWillMount from 'hooks/useComponentWillMount'
 import useComponentDidMount from 'hooks/useComponentDidMount'
 import { DeepMerger } from '@apollo/client/utilities'
-import reconcileProcessedFields from 'utils/reconcileProcessedFields'
 
 import createApolloClient from './createApolloClient'
 // On the client, we store the Apollo Client in the following variable.
@@ -140,7 +139,7 @@ export const withApollo = ({ ssr = false } = {}) => (
         // https://github.com/apollographql/apollo-client/blob/a975320528d314a1b7eba131b97d045d940596d7/src/cache/inmemory/writeToStore.ts#L100
         // a normal "deep merge" seemed to work as well, but it's safer to use
         // Apollo's implementation
-        const merger = new DeepMerger(reconcileProcessedFields)
+        const merger = new DeepMerger()
 
         client.cache.restore(merger.merge(apolloState, client.cache.extract()))
       }
@@ -219,9 +218,9 @@ export const withApollo = ({ ssr = false } = {}) => (
         // Only if dataFromTree is enabled
         if (ssr && AppTree) {
           try {
-            // Import `@apollo/react-ssr` dynamically.
+            // Import `@apollo/client/react/ssr` dynamically.
             // We don't want to have this in our client bundle.
-            const { getDataFromTree } = await import('@apollo/react-ssr')
+            const { getDataFromTree } = await import('@apollo/client/react/ssr')
 
             // Since AppComponents and PageComponents have different context types
             // we need to modify their props a little.
