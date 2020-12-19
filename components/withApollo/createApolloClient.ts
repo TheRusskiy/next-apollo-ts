@@ -1,5 +1,4 @@
 import { NextPageContext } from 'next'
-import fetch from 'isomorphic-unfetch'
 import {
   ApolloClient,
   HttpLink,
@@ -37,7 +36,13 @@ export default function createApolloClient(
     input: RequestInfo,
     init?: RequestInit
   ) => {
-    const result = await fetch(input, init)
+    let isomorphicFetch: typeof fetch
+    if (typeof window === 'undefined') {
+      isomorphicFetch = (await import('isomorphic-unfetch')).default
+    } else {
+      isomorphicFetch = window.fetch
+    }
+    const result = await isomorphicFetch(input, init)
     if (ctx?.res) {
       const cookiesFromApi = result.headers.get('set-cookie')
       if (cookiesFromApi) {
