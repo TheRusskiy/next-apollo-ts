@@ -46,3 +46,7 @@ export default withApollo({ ssr: false })(YourPage)
 // Update every 60 seconds
 export const getStaticProps = getStaticApolloProps<Props, Params>(YourPage, { revalidate: 60 })
 ```
+
+#### Running the example
+
+The example API server was taken from official Next.js repo, unfortunately it seems to be no longer running :-(
