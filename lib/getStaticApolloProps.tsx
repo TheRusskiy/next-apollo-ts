@@ -3,7 +3,7 @@ import { ParsedUrlQuery } from 'querystring'
 import { ApolloClient, ApolloProvider } from '@apollo/client'
 import { GetStaticProps } from 'next'
 import apolloStatic from 'components/withApollo/apolloStatic'
-import type { NextRouter } from 'next/dist/next-server/lib/router/router'
+import type { NextRouter } from 'next/dist/shared/lib/router/router'
 import React from 'react'
 
 export type StaticApolloProps = {
@@ -36,6 +36,8 @@ const baseFakeRouter = {
   pathname: '',
   asPath: '',
   basePath: '',
+  isLocaleDomain: false,
+  isPreview: false,
   push: notImplemented,
   replace: notImplemented,
   reload: notImplemented,
@@ -48,13 +50,13 @@ const baseFakeRouter = {
     emit: notImplemented
   },
   isFallback: false,
-  isReady: false
+  isReady: true
 }
 
 export default function getStaticApolloProps<
   TStaticProps extends GenericProps = GenericProps,
   TParams extends ParsedUrlQuery = ParsedUrlQuery
->(
+  >(
   Page: React.ComponentType<TStaticProps>,
   { revalidate }: { revalidate?: number } = {},
   callback: StaticApolloPropsCallback<TStaticProps, TParams> = async () =>
@@ -73,7 +75,7 @@ export default function getStaticApolloProps<
 
     const { getDataFromTree } = await import('@apollo/client/react/ssr')
     const { RouterContext } = await import(
-      'next/dist/next-server/lib/router-context'
+      'next/dist/shared/lib/router-context'
     )
 
     const apolloClient = apolloStatic()

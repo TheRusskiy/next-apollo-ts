@@ -8,18 +8,9 @@ module.exports = {
     // React
     'plugin:react/recommended',
 
-    // Typescript
-    'plugin:@typescript-eslint/recommended',
-    // enables import rules in typescript files
-    'plugin:import/typescript',
-
     // Prettier
     // recommended rules
     'plugin:prettier/recommended',
-    // avoids conflicts with @typescript-eslint/recommended
-    'prettier/@typescript-eslint',
-    // avoids conflicts with react/recommended.
-    'prettier/react',
 
     // Jest
     'plugin:jest/all'
@@ -31,19 +22,25 @@ module.exports = {
     jest: true
   },
   globals: {
-    React: 'readonly'
+    React: 'readonly',
+    JSX: 'readonly',
+    RequestInfo: 'readonly',
+    RequestInit: 'readonly'
   },
   // to parse future JS features (e.g. dynamic imports)
   parser: '@typescript-eslint/parser',
   plugins: [
     // enables custom react-hooks/* rules
-    'react-hooks'
+    'react-hooks',
+    '@typescript-eslint'
   ],
   rules: {
     // Airbnb + @typescript-eslint conflicts
     // Replace airbnb 'camel' with '@typescript-eslint' equivalent
     // Ensures consistent argument/variable casing
     camelcase: 'off',
+    'react/jsx-props-no-spreading': 0,
+    'react/require-default-props': 0,
     // Replace airbnb 'no-unused-expressions' with '@typescript-eslint' equivalent
     // Ensures all expressions are used
     'no-unused-expressions': 'off',
@@ -160,7 +157,7 @@ module.exports = {
       }
     ],
     // Don't requre file type in imports. TS already enforces this.
-    'import/extensions': 'never',
+    'import/extensions': 0,
 
     // Jest rules
     // Ensures consistent naming in test declarations

@@ -1,5 +1,4 @@
 import App, { AppContext } from 'next/app'
-import Head from 'next/head'
 import { ApolloClient, ApolloProvider } from '@apollo/client'
 import { NextPage, NextPageContext } from 'next'
 import useComponentWillMount from 'hooks/useComponentWillMount'
@@ -244,10 +243,6 @@ export const withApollo = ({ ssr = false } = {}) => (
             // eslint-disable-next-line no-console
             console.error('Error while running `getDataFromTree`', error)
           }
-
-          // getDataFromTree does not call componentWillUnmount
-          // head side effect therefore need to be cleared manually
-          Head.rewind()
         }
       }
 
