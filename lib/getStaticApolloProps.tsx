@@ -56,7 +56,7 @@ const baseFakeRouter = {
 export default function getStaticApolloProps<
   TStaticProps extends GenericProps = GenericProps,
   TParams extends ParsedUrlQuery = ParsedUrlQuery
-  >(
+>(
   Page: React.ComponentType<TStaticProps>,
   { revalidate }: { revalidate?: number } = {},
   callback: StaticApolloPropsCallback<TStaticProps, TParams> = async () =>
